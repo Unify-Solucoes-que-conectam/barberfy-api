@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Broadcasting\DatabaseChannel;
-use App\Broadcasting\GmailChannel;
 use App\Models\PersonalAccessToken;
 use Illuminate\Notifications\ChannelManager;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Sanctum\Sanctum;
@@ -48,5 +48,10 @@ class AppServiceProvider extends ServiceProvider
         // Nota: O Laravel 11 faz auto-discovery de listeners automaticamente.
         // Não é necessário registrar manualmente eventos que seguem a convenção:
         // app/Listeners/{EventName}*.php para app/Events/{EventName}.php
+        // Força o Laravel a entender que a URL base tem o prefixo /agendafy
+        if (app()->environment('production')) {
+            URL::forceRootUrl(config('app.url'));
+            // Certifique-se que APP_URL no .env seja https://api.unifysolucoes.com.br/agendafy
+        }
     }
 }
