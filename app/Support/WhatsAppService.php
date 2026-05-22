@@ -22,7 +22,7 @@ class WhatsAppService
     public function sendOtp(string $phone, string $code): bool
     {
         $number = $this->formatNumber($phone);
-        $text = "Seu código de verificação é: *{$code}*\nVálido por 5 minutos.\n\nSe você não solicitou esse código, ignore esta mensagem.";
+        $text = "🔐 *Código de Verificação Barberfy*\n\nSeu código de verificação é: *{$code}*\nVálido por 5 minutos.\n\nSe você não solicitou esse código, ignore esta mensagem.";
 
         return $this->sendText($number, $text);
     }
