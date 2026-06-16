@@ -23,12 +23,21 @@ class DashboardController extends Controller
             ->get();
 
         // contadores (sempre sem filtro para os cards)
-        $allAppointments = Appointment::whereDate('date', now()->toDateString())->get();
+        $allTodayAppointments = Appointment::with('service')->whereDate('date', now()->toDateString())->get();
+        $allMonthAppointments = Appointment::with('service')->whereMonth('date', now()->month)->get();
+
         $stats = [
-            'today' => $allAppointments->whereIn('status', ['0', '1'])->count(),
-            'pending' => $allAppointments->where('status', '0')->count(),
-            'confirmed' => $allAppointments->where('status', '1')->count(),
-            'cancelled' => $allAppointments->where('status', '2')->count(),
+            'today' => $allTodayAppointments->whereIn('status', ['0', '1'])->count(),
+            'pending' => $allTodayAppointments->where('status', '0')->count(),
+            'confirmed' => $allTodayAppointments->where('status', '1')->count(),
+            'cancelled' => $allTodayAppointments->where('status', '2')->count(),
+        ];
+
+        // resumo financeiro
+        $financial_summary = [
+            'today_invoicing' => $allTodayAppointments->where('status', '1')->sum('service.price'),
+            'month_invoicing' => $allMonthAppointments->where('status', '1')->sum('service.price'),
+            'average_ticket' => $allMonthAppointments->where('status', '1')->count() > 0 ? $allMonthAppointments->where('status', '1')->sum('service.price') / $allMonthAppointments->where('status', '1')->count() : 0,
         ];
 
         return response()->json([
@@ -36,6 +45,7 @@ class DashboardController extends Controller
             'message' => 'Agendamentos de hoje consultados com sucesso.',
             'data' => $todayAppointments,
             'stats' => $stats,
+            'financial_summary' => $financial_summary
         ]);
     }
 }
