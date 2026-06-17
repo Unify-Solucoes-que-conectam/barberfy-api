@@ -37,7 +37,7 @@ docker compose up -d
 1. Abra o aplicativo **Docker Desktop** no seu computador.
 2. Acesse a aba **Containers** no menu lateral esquerdo.
 3. Clique para abrir o dropdown da stack da evolution (normalmente chamado de `barberfy-api` ou `evolution-api`).
-4. Clique no link correspondente à porta **8081:8080** para abri-la no navegador.
+4. Clique no link correspondente à porta **8080:8080** para abri-la no navegador.
 
 ### 6. Copiar a URL do Manager
 Ao acessar a porta no navegador, a API retornará um JSON de boas-vindas com a seguinte estrutura:
@@ -48,18 +48,18 @@ Ao acessar a porta no navegador, a API retornará um JSON de boas-vindas com a s
   "message": "Welcome to the Evolution API, it is working!",
   "version": "2.3.7",
   "clientName": "evolution_exchange",
-  "manager": "http://localhost:8081/manager",
+  "manager": "http://localhost:8080/manager",
   "documentation": "https://doc.evolution-api.com",
   "whatsappWebVersion": "2.3000.1041640711"
 }
 ```
 
-Copie a URL que aparece na chave `"manager"` (geralmente `http://localhost:8081/manager`).
+Copie a URL que aparece na chave `"manager"` (geralmente `http://localhost:8080/manager`).
 
 ### 7. Autenticar no Evolution Manager
 1. Cole a URL copiada no navegador para abrir o painel do Evolution Manager.
 2. Nos campos de autenticação, insira:
-   * **Server URL:** `http://localhost:8081`
+   * **Server URL:** `http://localhost:8080`
    * **API Key Global:** A chave gerada pelo LastPass que você inseriu em `AUTHENTICATION_API_KEY` no arquivo `docker.env`.
 
 ### 8. Criar uma Nova Instância
